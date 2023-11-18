@@ -9,7 +9,7 @@ const REGION = process.env.REGION;
 const client = new DynamoDBClient({ region: REGION });
 
 export const getRecommend = async (_p) => {
-    const email = _p.email;
+  const email = _p.email;
   const params = {
     TableName: RECOMMEND_TABLE,
     Key: {
@@ -27,6 +27,5 @@ export const getRecommend = async (_p) => {
         count: data.Item[key].N,
       };
     });
-    return preferences;
+  return preferences;
 };
-
