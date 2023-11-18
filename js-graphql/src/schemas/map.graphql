@@ -1,0 +1,33 @@
+type MapNode {
+    name: String
+    "Type of the facilities"
+    type: NodeType
+    adjacentNode: [MapNode!]
+    "Absolute position of the node, return Latitude and Longitude"
+    absPos: GeoLocation
+    "Relative position of the node, return (x, y) relative to the Map"
+    relPos: MapCoordination
+}
+
+enum NodeType {
+    GATE
+    SHOP
+    TOILET
+    RESTAURANT
+    CHECKPOINT
+    SPLIT
+    COUNTER
+    TRANSPORT
+    OTHER
+}
+
+type GeoLocation {
+    latitude: Float
+    longitude: Float
+}
+
+type MapCoordination {
+    x: Float
+    y: Float
+}
+
