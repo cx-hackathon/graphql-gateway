@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: GraphQL
+Outputs:
+  GraphQLApiEndPoint:
+    Description: 'GraphQL API Gateway endpoint'
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/graphql"
+Resources:
+  GraphQL:
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/index.js
+        Minify: false
+        Target: 'es2020'
+    Properties:
+      Environment:
+        Variables:
+          DB_PASSWORD: '7DARBQiJDZOhSjrEBuvC5xmuUJqa_FAiGAzirbZZNiwA'
+          DB_URL: 'neo4j+s://cfebd756.databases.neo4j.io:7687'
+          DB_USER: 'neo4j'
+      Events:
+        GraphQLApi:
+          Properties:
+            Method: ANY
+            Path: /graphql
+          Type: Api
+      Handler: src/index.handler
+      PackageType: Zip
+      Runtime: nodejs16.x
+      Timeout: 30
+    Type: 'AWS::Serverless::Function'
+  GraphQLIntegration:
+    Properties:
+      ApiId: !Ref 'HttpApiGateway'
+      IntegrationMethod: POST
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GraphQL.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+    Type: AWS::ApiGatewayV2::Integration
+  GraphQLInvokePermission:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt 'GraphQL.Arn'
+      Principal: apigateway.amazonaws.com
+    Type: AWS::Lambda::Permission
+  GraphQLRoute:
+    Properties:
+      ApiId: !Ref 'HttpApiGateway'
+      AuthorizationType: NONE
+      RouteKey: 'ANY /graphql'
+      Target: !Sub 'integrations/${GraphQLIntegration}'
+    Type: AWS::ApiGatewayV2::Route
+Transform: "AWS::Serverless-2016-10-31"
