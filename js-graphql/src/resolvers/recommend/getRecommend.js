@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { DynamoDBClient, PutItemCommand, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 
 dotenv.config();
 
@@ -8,8 +8,9 @@ const REGION = process.env.REGION;
 
 const client = new DynamoDBClient({ region: REGION });
 
-export const getRecommend = async (_p) => {
-  const email = _p.email;
+export const getRecommend = async (p) => {
+  const email = p.email;
+  const topK = 3;
   const params = {
     TableName: RECOMMEND_TABLE,
     Key: {
@@ -19,13 +20,26 @@ export const getRecommend = async (_p) => {
   const command = new GetItemCommand(params);
   const data = await client.send(command);
 
-  const preferences = Object.keys(data.Item)
+  // AI Recommendation System, Accept HFRL
+  let preferences = Object.keys(data.Item)
     .filter((key) => key !== 'userId')
     .map((key) => {
       return {
         type: key,
         count: data.Item[key].N,
       };
-    });
-  return preferences;
+    })
+    .sort((a, b) => b.count - a.count)
+    .slice(0, topK);
+  const totalCount = preferences.reduce((sum, cur) => sum + Number(cur.count), 0);
+  preferences = preferences.map((preference) => {
+    return { probability: preference.count / totalCount, ...preference };
+  });
+  console.log(preferences);
+  let selection = Math.random();
+  for (let i = 0; i < preferences.length; i++) {
+    if (selection <= preferences[i].probability) return preferences[i];
+    selection -= preferences[i].probability;
+  }
+  return preferences[preferences.length - 1];
 };
