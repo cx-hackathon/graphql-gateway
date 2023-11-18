@@ -1,0 +1,54 @@
+type MapNode {
+    id: String!
+    name: String
+    level: Int
+    "Type of the facilities"
+    type: NodeType
+    adjacentNode: [MapNode!]
+    "Absolute position of the node, return Latitude and Longitude"
+    absPos: GeoLocation
+    "Relative position of the node, return (x, y) relative to the Map"
+    relPos: MapCoordination
+}
+
+enum NodeType {
+    GATE
+    SHOP
+    TOILET
+    RESTAURANT
+    CHECKPOINT
+    SPLIT
+    COUNTER
+    TRANSPORT
+    OTHER
+}
+
+type GeoLocation {
+    latitude: Float
+    longitude: Float
+}
+
+type MapCoordination {
+    x: Float
+    y: Float
+}
+
+input ShortestPathInput {
+    startNode: String!
+    endNode: String!
+}
+
+input NearbyNodeInput {
+    "User current Latitude and Longitude Info"
+    curLongitude: Float!
+    curLatitude: Float!
+    "How many Node should be returned, Default is 3"
+    k: Int
+}
+
+type Query {
+    "Return the Shortest Path from Current Node to Destination Node"
+    shortestPath(input: ShortestPathInput!): [MapNode!]
+    "Return Top k closed Node according to user's location"
+    nearbyNode(input: NearbyNodeInput!):  [MapNode!]
+}

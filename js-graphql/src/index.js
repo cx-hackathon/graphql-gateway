@@ -3,6 +3,8 @@ import { createServer } from 'http';
 
 import typeDefs from './schemas/index.js';
 import resolvers from './resolvers/index.js';
+// eslint-disable-next-line
+import baseContext from './context/baseContext.js'; // import name indented
 
 const main = async () => {
   const yoga = createYoga({
@@ -10,6 +12,7 @@ const main = async () => {
       typeDefs: await typeDefs,
       resolvers,
     }),
+    context: baseContext,
     cors: {
       origin: '*',
     },
