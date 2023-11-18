@@ -33,12 +33,12 @@ export const getRecommend = async (p) => {
     .slice(0, topK);
   const totalCount = preferences.reduce((sum, cur) => sum + Number(cur.count), 0);
   preferences = preferences.map((preference) => {
-    return {probability: preference.count / totalCount, ...preference};
+    return { probability: preference.count / totalCount, ...preference };
   });
   console.log(preferences);
   let selection = Math.random();
-  for(let i = 0; i < preferences.length; i++) {
-    if(selection <=  preferences[i].probability) return preferences[i];
+  for (let i = 0; i < preferences.length; i++) {
+    if (selection <= preferences[i].probability) return preferences[i];
     selection -= preferences[i].probability;
   }
   return preferences[preferences.length - 1];
