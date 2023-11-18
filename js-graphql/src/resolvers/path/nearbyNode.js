@@ -5,8 +5,14 @@ dotenv.config();
 export const nearbyNode = async (_p, { input }, { driver }) => {
   const session = await driver.session({ database: 'neo4j' });
   try {
-    const { curLongitude, curLatitude, k = 3 } = input;
-    const result = await session.run(`MATCH (n:Location) RETURN n`);
+    const { curLongitude, curLatitude, k = 3, type } = input;
+    let query = '';
+    if(type) {
+      query = `MATCH (n:Location {type: "${type}"}) RETURN n`;
+    } else {
+      query = `MATCH (n:Location) RETURN n`;
+    }
+    const result = await session.run(query, {type});
     const mapNodeList = result.records.map((record) => {
       const nodeProps = record.get('n').properties;
       const slong = Math.pow(curLongitude - nodeProps.longitude, 2);
