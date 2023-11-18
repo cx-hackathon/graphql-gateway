@@ -2,6 +2,8 @@ import merge from 'lodash/merge.js';
 
 import * as healthcheck from './healthcheck.js';
 
-const resolvers = merge({}, ...[healthcheck]);
+import * as Path from './path/index.js';
+
+const resolvers = merge({}, ...[healthcheck, Path]);
 
 export default resolvers;
