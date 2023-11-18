@@ -37,16 +37,17 @@ input ShortestPathInput {
     endNode: String!
 }
 
-input nearbyNodeInput {
+input NearbyNodeInput {
     "User current Latitude and Longitude Info"
-    curPos: GeoLocation!
+    curLongitude: Float!
+    curLatitude: Float!
     "How many Node should be returned, Default is 3"
     k: Int
 }
 
 type Query {
     "Return the Shortest Path from Current Node to Destination Node"
-    shortestPath(input: shortestPathInput!): [MapNode!]
+    shortestPath(input: ShortestPathInput!): [MapNode!]
     "Return Top k closed Node according to user's location"
-    nearbyNode(input: nearbyNodeInput!):  [MapNode!]
+    nearbyNode(input: NearbyNodeInput!):  [MapNode!]
 }
