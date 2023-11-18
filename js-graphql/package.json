@@ -15,7 +15,7 @@
     "format/properties": "find . -name '*.properties' -print -exec sort -o {} {} \\;",
     "format/yaml": "git ls-files '*.yml' '*.yaml' | xargs -t -I {} yq -i -S -Y . {}",
     "lint": "eslint src/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "dependencies": {
     "@graphql-tools/graphql-file-loader": "^8.0.0",
