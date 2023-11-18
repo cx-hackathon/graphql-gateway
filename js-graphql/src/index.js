@@ -3,7 +3,7 @@ import { createServer } from 'http';
 
 import typeDefs from './schemas/index.js';
 import resolvers from './resolvers/index.js';
-import * as baseContext from './context/baseContext.js';
+import baseContext from './context/baseContext.js';
 
 const main = async () => {
   const yoga = createYoga({
