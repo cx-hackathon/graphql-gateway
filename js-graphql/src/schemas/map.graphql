@@ -1,6 +1,7 @@
 type MapNode {
     id: String!
     name: String
+    level: Int
     "Type of the facilities"
     type: NodeType
     adjacentNode: [MapNode!]

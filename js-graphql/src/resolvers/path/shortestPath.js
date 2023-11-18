@@ -21,10 +21,9 @@ export const shortestPath = async (_p, { input }, { driver }) => {
     });
   });
   endNodeList[0].unshift(result.records[0].get('path').start);
-  console.log(endNodeList[0].map((node) => node.identity.low));
-  console.log(endNodeList[0].map((node) => node.properties.name));
   return endNodeList[0].map((node) => ({
     id: node.identity.low,
     name: node.properties.name,
+    level: Number(node.properties.level),
   }));
 };
