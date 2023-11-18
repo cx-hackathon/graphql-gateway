@@ -6,6 +6,8 @@ import * as Path from './path/index.js';
 
 import * as recommend from './recommend/index.js';
 
-const resolvers = merge({}, ...[healthcheck, Path, recommend]);
+import * as gpt from './gpt/index.js';
+
+const resolvers = merge({}, ...[healthcheck, Path, recommend, gpt]);
 
 export default resolvers;
