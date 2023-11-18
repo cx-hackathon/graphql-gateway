@@ -3,6 +3,7 @@ import { createServer } from 'http';
 
 import typeDefs from './schemas/index.js';
 import resolvers from './resolvers/index.js';
+import * as baseContext from './context/baseContext.js';
 
 const main = async () => {
   const yoga = createYoga({
@@ -10,6 +11,7 @@ const main = async () => {
       typeDefs: await typeDefs,
       resolvers,
     }),
+    context: baseContext,
     cors: {
       origin: '*',
     },
