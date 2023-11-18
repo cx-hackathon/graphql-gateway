@@ -3,7 +3,8 @@ import { createServer } from 'http';
 
 import typeDefs from './schemas/index.js';
 import resolvers from './resolvers/index.js';
-import baseContext from './context/baseContext.js';
+// eslint-disable-next-line
+import baseContext from './context/baseContext.js'; // import name indented
 
 const main = async () => {
   const yoga = createYoga({
