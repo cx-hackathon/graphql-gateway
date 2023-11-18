@@ -1,4 +1,5 @@
 type MapNode {
+    id: String!
     name: String
     "Type of the facilities"
     type: NodeType
@@ -31,3 +32,21 @@ type MapCoordination {
     y: Float
 }
 
+input ShortestPathInput {
+    startNode: String!
+    endNode: String!
+}
+
+input nearbyNodeInput {
+    "User current Latitude and Longitude Info"
+    curPos: GeoLocation!
+    "How many Node should be returned, Default is 3"
+    k: Int
+}
+
+type Query {
+    "Return the Shortest Path from Current Node to Destination Node"
+    shortestPath(input: shortestPathInput!): [MapNode!]
+    "Return Top k closed Node according to user's location"
+    nearbyNode(input: nearbyNodeInput!):  [MapNode!]
+}
