@@ -42,7 +42,7 @@ devDependencies:
   prettier-plugin-sort-json:
     specifier: ^3.1.0
     version: 3.1.0(prettier@3.1.0)
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 packages:
   /@aashutoshrathi/word-wrap@1.2.6:
     dev: true
