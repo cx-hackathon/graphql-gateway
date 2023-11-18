@@ -4,6 +4,8 @@ import * as healthcheck from './healthcheck.js';
 
 import * as Path from './path/index.js';
 
-const resolvers = merge({}, ...[healthcheck, Path]);
+import * as recommend from './recommend/index.js';
+
+const resolvers = merge({}, ...[healthcheck, Path, recommend]);
 
 export default resolvers;
