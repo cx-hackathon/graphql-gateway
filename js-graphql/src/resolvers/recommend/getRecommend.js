@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { DynamoDBClient, PutItemCommand, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 
 dotenv.config();
 
