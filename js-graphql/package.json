@@ -15,6 +15,12 @@
     "format/properties": "find . -name '*.properties' -print -exec sort -o {} {} \\;",
     "format/yaml": "git ls-files '*.yml' '*.yaml' | xargs -t -I {} yq -i -S -Y . {}",
     "lint": "eslint src/*.js",
+    "prod": "pnpm prod/preBuild && pnpm prod/build && pnpm prod/postBuild && pnpm prod/schema && pnpm prod/deploy",
+    "prod/build": "sam build --beta-features",
+    "prod/deploy": "sam deploy --stack-name map-pathfinder --resolve-s3 --capabilities CAPABILITY_IAM",
+    "prod/postBuild": "git restore .",
+    "prod/preBuild": "cp ./src/index.deploy.js ./src/index.js",
+    "prod/schema": "cp -r ./src/schemas .aws-sam/build/GraphQL",
     "test": "echo \"Error: no test specified\""
   },
   "dependencies": {
@@ -29,6 +35,7 @@
   "devDependencies": {
     "depcheck": "^1.4.7",
     "dotenv": "^16.3.1",
+    "esbuild": "^0.19.5",
     "eslint": "^8.53.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.0",

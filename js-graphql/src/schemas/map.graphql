@@ -49,6 +49,6 @@ input NearbyNodeInput {
 type Query {
     "Return the Shortest Path from Current Node to Destination Node"
     shortestPath(input: ShortestPathInput!): [MapNode!]
-    "Return Top k closed Node according to user's location"
+    "Top k closed Node according to user's location. Return sorted array. Smaller index closer to user."
     nearbyNode(input: NearbyNodeInput!):  [MapNode!]
 }
