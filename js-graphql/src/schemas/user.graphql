@@ -1,0 +1,17 @@
+type Query {
+    user(email: String!): User
+}
+
+type Mutation {
+    addPreference(email: String!, type: String!): Preference
+}
+
+type User{
+    email: String!
+    preferences: Preference
+}
+
+type Preference{
+    type: String!
+    count: String!
+}

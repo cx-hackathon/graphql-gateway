@@ -44,6 +44,8 @@ input NearbyNodeInput {
     curLatitude: Float!
     "How many Node should be returned, Default is 3"
     k: Int
+    "Filtering with certain Node Type, Default is no Filtering"
+    type: NodeType
 }
 
 type Query {
