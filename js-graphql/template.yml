@@ -4,6 +4,9 @@ Outputs:
   GraphQLApiEndPoint:
     Description: 'GraphQL API Gateway endpoint'
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/graphql"
+  HTTPApiEndPoint:
+    Description: 'HTTP API Gateway endpoint'
+    Value: !GetAtt 'HttpApiGateway.ApiEndpoint'
 Resources:
   GraphQL:
     Metadata:
@@ -16,8 +19,8 @@ Resources:
     Properties:
       Environment:
         Variables:
-          DB_PASSWORD: '7DARBQiJDZOhSjrEBuvC5xmuUJqa_FAiGAzirbZZNiwA'
-          DB_URL: 'neo4j+s://cfebd756.databases.neo4j.io:7687'
+          DB_PASSWORD: '7DARBQiJDZOhSjrEBuvC5xmuUJqa_FAiGAzirbZZNiw'
+          DB_URL: 'neo4j+s://cfebd756.databases.neo4j.io'
           DB_USER: 'neo4j'
       Events:
         GraphQLApi:
@@ -51,4 +54,17 @@ Resources:
       RouteKey: 'ANY /graphql'
       Target: !Sub 'integrations/${GraphQLIntegration}'
     Type: AWS::ApiGatewayV2::Route
+  HttpApiGateway:
+    Properties:
+      Description: 'HTTP Api Gateway for beaconnect'
+      Name: beaconnect-http-api-gateway
+      ProtocolType: 'HTTP'
+    Type: AWS::ApiGatewayV2::Api
+  HttpApiGatewayStage:
+    Properties:
+      ApiId: !Ref 'HttpApiGateway'
+      AutoDeploy: true
+      Description: 'Auto Deploy stage for beaconnect ApiGateway'
+      StageName: '$default'
+    Type: AWS::ApiGatewayV2::Stage
 Transform: "AWS::Serverless-2016-10-31"
