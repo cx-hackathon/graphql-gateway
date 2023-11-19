@@ -7,8 +7,7 @@ export const shortestPath = async (_p, { input }, { driver }) => {
   try {
     const { startNode, endNode } = input;
     const result = await session.run(
-      `MATCH (start:Location), (end:Location)
-          WHERE ID(start) = toInteger($startNode) AND ID(end) = toInteger($endNode)
+      `MATCH (start:Location {id: $startNode}), (end: Location {id: $endNode})
           CALL apoc.algo.dijkstra(start, end, 'ROAD', 'cost') YIELD path, weight
           RETURN path`,
       { startNode, endNode },
